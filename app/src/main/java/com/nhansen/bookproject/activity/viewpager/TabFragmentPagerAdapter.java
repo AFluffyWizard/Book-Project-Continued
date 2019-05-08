@@ -1,14 +1,14 @@
 package com.nhansen.bookproject.activity.viewpager;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.nhansen.bookproject.R;
 
 public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int numTabs = 3;
+    private static final int NUM_TABS = 3;
 
     public TabFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -44,6 +44,6 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return numTabs;
+        return NUM_TABS;
     }
 }

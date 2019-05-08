@@ -1,7 +1,6 @@
 package com.nhansen.bookproject.recommender;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Comparator;

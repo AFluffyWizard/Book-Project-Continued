@@ -1,8 +1,8 @@
 package com.nhansen.bookproject.activity.viewpager;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,7 +10,6 @@ import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.RecyclerViewListableAdapter;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.ListActivityUserLists;
-import com.nhansen.bookproject.book.Book;
 
 public class TabFragmentList extends TabFragmentBase {
 

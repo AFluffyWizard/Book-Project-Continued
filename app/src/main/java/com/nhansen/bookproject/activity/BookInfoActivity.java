@@ -1,10 +1,9 @@
 package com.nhansen.bookproject.activity;
 
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import com.nhansen.bookproject.UserListAdapter;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.book.Book;
-import com.nhansen.bookproject.book.BookList;
 import com.nhansen.bookproject.database.DbHelper;
 
 public class BookInfoActivity extends UserActivityBase {

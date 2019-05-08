@@ -7,7 +7,7 @@
     android:fillViewport="true"
     android:focusableInTouchMode="true">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/createacc_layout_const"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -169,5 +169,5 @@
             />
         
         
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,6 +1,6 @@
 package com.nhansen.bookproject.activity;
 
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.nhansen.bookproject.R;
@@ -15,7 +15,6 @@ public class MainActivity extends UserActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("onCreate called in " + this.getLocalClassName());
 
         viewPager = findViewById(R.id.main_viewpager);
         tabFragmentPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
@@ -29,27 +28,4 @@ public class MainActivity extends UserActivityBase {
 //        tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("onStart called in " + this.getLocalClassName());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.out.println("onResume called in " + this.getLocalClassName());
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        System.out.println("onStop called in " + this.getLocalClassName());
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        System.out.println("onRestart called in " + this.getLocalClassName());
-    }
 }
