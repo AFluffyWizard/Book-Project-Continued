@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_tab_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/tab_list_button_customlists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Custom Lists"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        />
+
+    <TextView
+        android:id="@+id/tab_list_label_recommended"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recommended Books"
+        android:textSize="24sp"
+        android:layout_gravity="start"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tab_list_layout_listrecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>
