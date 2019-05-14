@@ -1,20 +1,21 @@
 package com.nhansen.bookproject.activity;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhansen.bookproject.ApplicationManager;
 import com.nhansen.bookproject.FieldFocusTools;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.database.DbHelper;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     Button createaccButton;
 
     int failCount = 0;
+    int secondsLeft = 0;
     boolean preventLoginAttempt = false;
     Timer preventLoginTimer;
 
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (preventLoginAttempt) {
-                    Util.shortToast(getApplicationContext(), "Login attempt prevented. Please wait");
+                    displayLoginWaitMessage();
                     return;
                 }
 
@@ -57,17 +59,19 @@ public class LoginActivity extends AppCompatActivity {
                 else if ( ((++failCount)%5) != 0 ) // if this is not the 5nth failure, allow another attempt
                     Util.shortToast(getApplicationContext(), "Invalid Login Credentials");
                 else { // if this is the 5nth failure, prevent login for n*10 seconds
-                    int loginDelay = (failCount/5)*10;
-                    Util.shortToast(getApplicationContext(), "Too many failed login attempts. Please wait " + loginDelay + " seconds before trying again");
+                    secondsLeft = (failCount/5)*10;
+                    displayLoginWaitMessage();
                     preventLoginAttempt = true;
                     preventLoginTimer = new Timer();
                     preventLoginTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            preventLoginAttempt = false;
-                            preventLoginTimer.cancel();
+                            if (--secondsLeft == 0) {
+                                preventLoginAttempt = false;
+                                preventLoginTimer.cancel();
+                            }
                         }
-                    }, loginDelay*1000);
+                    }, 1000, 1000);
                 }
 
             }
@@ -86,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.login_field_pass);
         Util.setOnKeyListener_fieldPressButtonOnFinish(passwordField,loginButton);
 
+    }
+
+    private void displayLoginWaitMessage() {
+        Util.shortToast(getApplicationContext(), "Too many failed login attempts. Please wait " + secondsLeft + " seconds before trying again");
     }
 
     @Override
