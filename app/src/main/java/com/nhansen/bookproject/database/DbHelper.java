@@ -33,43 +33,15 @@ public class DbHelper {
 
 
 
-    private Book parseBook (String bookData) {
-        String[] bookparam = parseCsvString(bookData);
-        return new Book(bookparam[0],
-                bookparam[1],
-                bookparam[2],
-                Float.parseFloat(bookparam[3]),
-                bookparam[4],
-                Integer.parseInt(bookparam[5]),
-                Integer.parseInt(bookparam[6]),
-                Genre.getEnum(bookparam[7]));
-    }
-
-    // because some data values have commas in them, so they can't easily be retrieved.
-    // those that do are surrounded by quotes
-    private String[] parseCsvString(String csvData) {
-        ArrayList<String> data = new ArrayList<>();
-
-        // find each value and cut it out
-        // if there are quotes, use them as reference
-        // if not, use the comma as reference
-        while(!csvData.equals("")) {
-            if (csvData.indexOf('"') < 0) {
-                Collections.addAll(data,csvData.split(","));
-                break;
-            }
-            else if (csvData.indexOf('"') < csvData.indexOf(',')) {
-                data.add(csvData.substring(1,csvData.indexOf('"',1)));
-                csvData = csvData.substring(csvData.indexOf('"',1)+2);
-            }
-            else {
-                data.add(csvData.substring(0,csvData.indexOf(',')));
-                csvData = csvData.substring(csvData.indexOf(',')+1);
-            }
-        }
-
-        String[] dataArray = new String[data.size()];
-        return data.toArray(data.toArray(dataArray));
+    private Book parseBook (String[] bookData) {
+        return new Book(bookData[0],
+                bookData[1],
+                bookData[2],
+                Float.parseFloat(bookData[3]),
+                bookData[4],
+                Integer.parseInt(bookData[5]),
+                Integer.parseInt(bookData[6]),
+                Genre.getEnum(bookData[7]));
     }
 
     public ArrayList<Book> getAllBooks() {
@@ -78,7 +50,7 @@ public class DbHelper {
         else
             allBooks = new ArrayList<>();
 
-        ArrayList<String> bookData = bookDb.readEntireFile();
+        ArrayList<String[]> bookData = bookDb.readFile();
         for (int i = 1; i < bookData.size(); i++) {
             allBooks.add(parseBook(bookData.get(i)));
         }
