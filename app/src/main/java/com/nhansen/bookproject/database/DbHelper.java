@@ -2,20 +2,17 @@ package com.nhansen.bookproject.database;
 
 import android.content.Context;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.nhansen.bookproject.ApplicationManager;
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.book.Genre;
 import com.nhansen.bookproject.user.User;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class DbHelper {
 
-    private Context context;
-    //private SerializableDb<User> userDb;
-    private UserDB userDb;
+    private SerializableDb<User> userDb;
     private CsvDb bookDb;
     private ArrayList<Book> allBooks;
 
@@ -30,14 +27,9 @@ public class DbHelper {
     }
 
     private DbHelper(Context context) {
-        this.context = context;
-        //userDb = new SerializableDb<>(context, context.getString(R.string.database_user_foldername), ".usr");
-        userDb = new UserDB(context, "UserDb.ser");
+        userDb = new SerializableDb<>(context, "UserDb", ".ser");
         bookDb = new CsvDb(context, "bookDB.csv");
     }
-
-
-
 
 
 
@@ -76,13 +68,6 @@ public class DbHelper {
             }
         }
 
-        /* FOR DEBUGGING
-
-        for (String s : data)
-            System.out.print(s + "|");
-        System.out.println();
-        */
-
         String[] dataArray = new String[data.size()];
         return data.toArray(data.toArray(dataArray));
     }
@@ -102,64 +87,41 @@ public class DbHelper {
     }
 
     public User getUser (String username, String password) {
-        return getUser(username, password.hashCode());
+        User user = getUser(username);
+        if (user == null)
+            return null;
+        else if (user.getPasswordHash() == password.hashCode())
+            return user;
+        else
+            return null;
     }
 
-    private User getUser (String username, int passwordHash) {
-        for (User u : userDb.getUserList()) {
-            boolean userMatch = u.getName().equals(username);
-            boolean passMatch = (u.getPasswordHash() == passwordHash);
-            if (userMatch && passMatch)
-                return u;
-        }
-        return null;
+    // TODO - FIX THIS
+    // in theory, this class shouldn't know - or have to know - the file extension of the user files
+    // however, userDb.read() NEEDS the string to have the file extension
+    private User getUser (String username) {
+        return userDb.read(username + ".ser");
     }
-
 
     public boolean addUser(User user) {
-        if (usernameTaken(user.getName()))
-            return false;
-        else if (userDb.getUserList().add(user)) {
-            userDb.write();
-            return true;
-        }
-        return false;
+        return userDb.write(user.getName(), user);
     }
 
-
-    public boolean appendUser (User oldUserData, User newUserData) {
-        boolean delete = userDb.getUserList().remove(oldUserData);
-        boolean add = userDb.getUserList().add(newUserData);
-        userDb.write();
-        return delete && add;
+    public boolean appendUser (String oldUserName, User newUserData) {
+        return userDb.append(oldUserName, newUserData);
     }
 
-    public boolean appendUser (User userData) {
-        User oldUser = null;
-        for (User u : userDb.getUserList()) {
-            if (u.getName().equals(userData.getName()))
-                oldUser = u;
-        }
-        if (oldUser == null)
-            return false;
-
-        boolean delete = userDb.getUserList().remove(oldUser);
-        boolean add = userDb.getUserList().add(userData);
-        userDb.write();
-        return delete && add;
+    public boolean appendUser (User newUserData) {
+        return userDb.append(newUserData.getName(), newUserData);
     }
-
 
     public boolean deleteUser (User user) {
-        boolean success = userDb.getUserList().remove(user);
-        userDb.write();
-        return success;
+        return userDb.delete(user.getName());
     }
 
     public boolean usernameTaken(String name) {
         ArrayList<String> userNames = new ArrayList<>();
-        for (User u : userDb.getUserList())
-            userNames.add(u.getName());
+        Collections.addAll(userNames, userDb.getFriendlyFileNames());
         return (userNames.contains(name));
     }
 

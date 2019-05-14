@@ -2,7 +2,6 @@ package com.nhansen.bookproject.activity.viewpager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,10 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.android.flexbox.FlexboxLayout;
-
-import java.util.ArrayList;
-
 import com.nhansen.bookproject.ApplicationManager;
 import com.nhansen.bookproject.FieldFocusTools;
 import com.nhansen.bookproject.R;
@@ -24,6 +22,8 @@ import com.nhansen.bookproject.recommender.Recommender;
 import com.nhansen.bookproject.user.Gender;
 import com.nhansen.bookproject.user.ReadingHabits;
 import com.nhansen.bookproject.user.User;
+
+import java.util.ArrayList;
 
 public class TabFragmentProfile extends TabFragmentBase {
 
@@ -105,7 +105,7 @@ public class TabFragmentProfile extends TabFragmentBase {
                 }
                 Recommender r = new Recommender(editedUser, DbHelper.getInstance(getContext()).getAllBooks(), 10);
                 editedUser.setRecommendedList(r.produceRecommendedBooks());
-                dbHelper.appendUser(activeUser, editedUser);
+                dbHelper.appendUser(activeUser.getName(), editedUser);
 
                 Util.longToast(getContext(), "User information updated. Please login again");
                 ApplicationManager.logout();

@@ -15,23 +15,24 @@ class SerializableDb<T extends Serializable> {
 
     private Context context;
     private File dbDir;
-    private String fileSuffix;
+    private String fileExtension;
 
-    protected SerializableDb(Context context, String dirName, String fileSuffix) {
+    SerializableDb(Context context, String dirName, String fileExtension) {
         this.context = context;
+        this.fileExtension = fileExtension;
         dbDir = new File (context.getFilesDir(), dirName);
         dbDir.mkdir();
-        this.fileSuffix = fileSuffix;
     }
 
 
     /** write a new serializable object
      *
      * if the object already exists, this returns false and does not modify anything
-     * otherwise, it creates a file for and stores the object **/
+     * otherwise, it creates a file for and stores the object
+     * NOTE: this method adds the file extension for you. you do not need to add it yourself. **/
     boolean write (String fileName, T obj) {
         try {
-            File newFile = new File(dbDir, fileName + fileSuffix);
+            File newFile = new File(dbDir, fileName + fileExtension);
             if (!newFile.createNewFile())
                 return false;
             FileOutputStream fileOut = context.openFileOutput(newFile.getName(), Context.MODE_PRIVATE);
@@ -41,6 +42,7 @@ class SerializableDb<T extends Serializable> {
             fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -51,7 +53,7 @@ class SerializableDb<T extends Serializable> {
      * otherwise, deletes the old file and replaces it with a new one containing newObj**/
     boolean append(String fileName, T newObj) {
         try {
-            File appendedFile = new File(dbDir, fileName + fileSuffix);
+            File appendedFile = new File(dbDir, fileName);
             if (!appendedFile.delete())
                 return false;
             appendedFile.createNewFile();
@@ -71,7 +73,7 @@ class SerializableDb<T extends Serializable> {
      * returns true if the file existed and was deleted
      * returns false otherwise **/
     boolean delete(String fileName) {
-        File deletedFile = new File (dbDir, fileName + fileSuffix);
+        File deletedFile = new File (dbDir, fileName);
         return deletedFile.delete();
     }
 
@@ -81,7 +83,7 @@ class SerializableDb<T extends Serializable> {
      * otherwise, returns an object of that file's type **/
     T read (String fileName) {
         T readObj = null;
-        File readFile = new File(dbDir, fileName + fileSuffix);
+        File readFile = new File(dbDir, fileName);
         if (!readFile.exists())
             return null;
         try {
@@ -100,9 +102,21 @@ class SerializableDb<T extends Serializable> {
 
     /** returns an ArrayList of every file **/
     ArrayList<T> readAll() {
-        ArrayList<T> all = new ArrayList<>();
+        ArrayList<T> allFiles = new ArrayList<>();
         for (String fileName : dbDir.list())
-            all.add(read(fileName));
-        return all;
+            allFiles.add(read(fileName));
+        return allFiles;
+    }
+
+
+    String[] getFileNames() {
+        return dbDir.list();
+    }
+
+    String[] getFriendlyFileNames() {
+        ArrayList<String> friendlyFileNames = new ArrayList<>();
+        for (String s : dbDir.list())
+            friendlyFileNames.add(s.substring(0,s.indexOf(fileExtension)));
+        return friendlyFileNames.toArray(new String[0]);
     }
 }

@@ -1,12 +1,13 @@
 package com.nhansen.bookproject.activity.viewpager;
 
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.nhansen.bookproject.ApplicationManager;
 import com.nhansen.bookproject.user.User;
@@ -46,11 +47,5 @@ public abstract class TabFragmentBase extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(layoutRes, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        activeUser = ApplicationManager.getActiveUser();
     }
 }
