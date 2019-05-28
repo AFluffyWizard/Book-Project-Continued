@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import androidx.annotation.Nullable;
 
+import com.nhansen.bookproject.Keys;
+import com.nhansen.bookproject.Listable;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.BookInfoActivity;
-import com.nhansen.bookproject.Listable;
+
+import java.io.Serializable;
 
 public class Book implements Parcelable, Listable, Serializable {
 
@@ -40,19 +42,12 @@ public class Book implements Parcelable, Listable, Serializable {
     }
 
     public String getTitle() {return title;}
-    public void setTitle(String title) {this.title = title;}
     public String getAuthor() {return author;}
-    public void setAuthor(String author) {this.author = author;}
     public String getPublisher() {return publisher;}
-    public void setPublisher(String publisher) {this.publisher = publisher;}
     public int getYearPublished() {return yearPublished;}
-    public void setYearPublished(int yearPublished) {this.yearPublished = yearPublished;}
     public String getIsbn() {return isbn;}
-    public void setIsbn(String isbn) {this.isbn = isbn;}
     public Genre getGenre() {return genre;}
-    public void setGenre(Genre genre) {this.genre = genre;}
     public int getNumPages() {return numPages;}
-    public void setNumPages(int numPages) {this.numPages = numPages;}
     public float getRating() {return rating;}
     public void setSimilarityIndex(float similarityIndex) {this.similarityIndex = similarityIndex;}
     public float getSimilarityIndex() {return similarityIndex;}
@@ -139,7 +134,7 @@ public class Book implements Parcelable, Listable, Serializable {
     @Override
     public Intent getDisplayIntent(Context context) {
         Intent displayIntent = new Intent(context, BookInfoActivity.class);
-        displayIntent.putExtra(Util.INTENT_DATA_BOOK, (Parcelable)this);
+        displayIntent.putExtra(Keys.INTENT_DATA_BOOK, (Parcelable)this);
         return displayIntent;
     }
 

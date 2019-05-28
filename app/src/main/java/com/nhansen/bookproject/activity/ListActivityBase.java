@@ -1,18 +1,19 @@
 package com.nhansen.bookproject.activity;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.Listable;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.RecyclerViewListableAdapter;
-import com.nhansen.bookproject.Util;
+
+import java.util.ArrayList;
 
 public abstract class ListActivityBase extends UserActivityBase {
 
@@ -36,10 +37,10 @@ public abstract class ListActivityBase extends UserActivityBase {
         emptyLabel = findViewById(R.id.list_label_listempty);
         actionButton = findViewById(R.id.list_button_actionbutton);
 
-        listTitle.setText(getIntent().getStringExtra(Util.INTENT_DATA_LIST_LISTTITLE));
-        dataset = getIntent().getParcelableArrayListExtra(Util.INTENT_DATA_LIST_DATASET);
-        viewLayoutRes = getIntent().getIntExtra(Util.INTENT_DATA_LIST_LAYOUTRES, 0);
-        textIfEmpty = getIntent().getStringExtra(Util.INTENT_DATA_LIST_LABELIFEMPTY);
+        listTitle.setText(getIntent().getStringExtra(Keys.INTENT_DATA_LIST_LISTTITLE));
+        dataset = getIntent().getParcelableArrayListExtra(Keys.INTENT_DATA_LIST_DATASET);
+        viewLayoutRes = getIntent().getIntExtra(Keys.INTENT_DATA_LIST_LAYOUTRES, 0);
+        textIfEmpty = getIntent().getStringExtra(Keys.INTENT_DATA_LIST_LABELIFEMPTY);
         if (textIfEmpty == null)
             textIfEmpty = "empty";
 

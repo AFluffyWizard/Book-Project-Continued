@@ -1,14 +1,15 @@
 package com.nhansen.bookproject.activity.viewpager;
 
 import android.content.Intent;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.RecyclerViewListableAdapter;
-import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.ListActivityUserLists;
 
 public class TabFragmentList extends TabFragmentBase {
@@ -27,10 +28,10 @@ public class TabFragmentList extends TabFragmentBase {
             @Override
             public void onClick(View v) {
                 Intent userListsIntent = new Intent(getContext(), ListActivityUserLists.class);
-                userListsIntent.putExtra(Util.INTENT_DATA_LIST_LISTTITLE, "Custom Lists");
-                userListsIntent.putExtra(Util.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_booklist);
-                userListsIntent.putExtra(Util.INTENT_DATA_LIST_DATASET, activeUser.getCustomLists());
-                userListsIntent.putExtra(Util.INTENT_DATA_LIST_LABELIFEMPTY, "You don't have any lists yet");
+                userListsIntent.putExtra(Keys.INTENT_DATA_LIST_LISTTITLE, "Custom Lists");
+                userListsIntent.putExtra(Keys.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_booklist);
+                userListsIntent.putExtra(Keys.INTENT_DATA_LIST_DATASET, activeUser.getCustomLists());
+                userListsIntent.putExtra(Keys.INTENT_DATA_LIST_LABELIFEMPTY, "You don't have any lists yet");
                 startActivity(userListsIntent);
             }
         });

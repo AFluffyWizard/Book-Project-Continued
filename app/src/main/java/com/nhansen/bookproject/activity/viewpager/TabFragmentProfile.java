@@ -21,26 +21,24 @@ import com.nhansen.bookproject.database.DbHelper;
 import com.nhansen.bookproject.recommender.Recommender;
 import com.nhansen.bookproject.user.Gender;
 import com.nhansen.bookproject.user.ReadingHabits;
-import com.nhansen.bookproject.user.User;
 
 import java.util.ArrayList;
 
 public class TabFragmentProfile extends TabFragmentBase {
 
-    EditText usernameField;
-    Spinner genderSpinner;
-    EditText ageField;
-    Spinner readingHabitsSpinner;
-    FlexboxLayout likedGenresLayout;
-    FlexboxLayout dislikedGenresLayout;
-    Button updateButton;
-    Button deleteButton;
-    boolean confirmDeleteAccount = false;
+    private Spinner genderSpinner;
+    private EditText ageField;
+    private Spinner readingHabitsSpinner;
+    private FlexboxLayout likedGenresLayout;
+    private FlexboxLayout dislikedGenresLayout;
+    private Button updateButton;
+    private Button deleteButton;
+    private boolean confirmDeleteAccount = false;
 
-    ArrayList<Genre> likedGenres;
-    ArrayList<Genre> dislikedGenres;
+    private ArrayList<Genre> likedGenres;
+    private ArrayList<Genre> dislikedGenres;
 
-    DbHelper dbHelper;
+    private DbHelper dbHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +50,6 @@ public class TabFragmentProfile extends TabFragmentBase {
     public void onStart() {
         super.onStart();
         FieldFocusTools.setAllFieldsClearFocusOnFinish((ViewGroup)getView().findViewById(R.id.profile_layout_const));
-
-        usernameField = getView().findViewById(R.id.profile_field_username);
-        usernameField.setHint(activeUser.getName());
 
         ageField = getView().findViewById(R.id.profile_field_age);
         ageField.setHint(Integer.toString(activeUser.getAge()));
@@ -79,36 +74,31 @@ public class TabFragmentProfile extends TabFragmentBase {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = usernameField.getText().toString();
-                Gender gender = (Gender) genderSpinner.getSelectedItem();
+                Gender gender = (Gender)genderSpinner.getSelectedItem();
                 String ageString = ageField.getText().toString();
                 ReadingHabits readingHabits = (ReadingHabits) readingHabitsSpinner.getSelectedItem();
 
-                if (dbHelper.usernameTaken(name)) {
-                    Util.shortToast(getContext(), "A user with that name already exists!");
+                if (ageString.equals("")) {
+                    Util.shortToast(getContext(), "You must input a valid age");
                     return;
                 }
 
-                User editedUser = new User(activeUser);
-                if (!name.equals(""))
-                    editedUser.setName(name);
-                editedUser.setGender(gender);
-                if (!ageString.equals(""))
-                    editedUser.setAge(Integer.parseInt(ageString));
-                editedUser.setReadingHabits(readingHabits);
-                editedUser.setLikedGenres(likedGenres);
-                editedUser.setDislikedGenres(dislikedGenres);
+                boolean updated =
+                    activeUser.setGender(gender) &&
+                    activeUser.setAge(Integer.parseInt(ageString)) &&
+                    activeUser.setReadingHabits(readingHabits) &&
+                    activeUser.setLikedGenres(likedGenres) &&
+                    activeUser.setDislikedGenres(dislikedGenres);
 
-                if (editedUser.equals(activeUser)) {
+                if (!updated) {
                     Util.shortToast(getContext(), "No changes made - did not update user");
                     return;
                 }
-                Recommender r = new Recommender(editedUser, DbHelper.getInstance(getContext()).getAllBooks(), 10);
-                editedUser.setRecommendedList(r.produceRecommendedBooks());
-                dbHelper.appendUser(activeUser.getName(), editedUser);
+                Recommender r = new Recommender(activeUser, DbHelper.getInstance(getContext()).getAllBooks(), 10);
+                activeUser.setRecommendedList(r.produceRecommendedBooks());
+                dbHelper.appendUser(activeUser);
 
-                Util.longToast(getContext(), "User information updated. Please login again");
-                ApplicationManager.logout();
+                Util.longToast(getContext(), "User information updated");
             }
         });
 

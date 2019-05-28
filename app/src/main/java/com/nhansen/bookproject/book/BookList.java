@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
 
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.Listable;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.ListActivityBookList;
+
+import java.util.ArrayList;
 
 public class BookList extends ArrayList<Book> implements Parcelable, Listable {
 
@@ -99,9 +101,9 @@ public class BookList extends ArrayList<Book> implements Parcelable, Listable {
     @Nullable @Override
     public Intent getDisplayIntent(Context context) {
         Intent displayIntent = new Intent(context, ListActivityBookList.class);
-        displayIntent.putExtra(Util.INTENT_DATA_LIST_DATASET, (Parcelable)this);
-        displayIntent.putExtra(Util.INTENT_DATA_LIST_LISTTITLE, this.listName);
-        displayIntent.putExtra(Util.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_book);
+        displayIntent.putExtra(Keys.INTENT_DATA_LIST_DATASET, (Parcelable)this);
+        displayIntent.putExtra(Keys.INTENT_DATA_LIST_LISTTITLE, this.listName);
+        displayIntent.putExtra(Keys.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_book);
         return displayIntent;
     }
 

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhansen.bookproject.ApplicationManager;
 import com.nhansen.bookproject.FieldFocusTools;
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.database.DbHelper;
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         createaccButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(createAccIntent, Util.REQUEST_CREATE_ACCOUNT);
+                startActivityForResult(createAccIntent, Keys.REQUEST_CREATE_ACCOUNT);
             }
         });
 
@@ -97,9 +98,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Util.REQUEST_CREATE_ACCOUNT) {
+        if (requestCode == Keys.REQUEST_CREATE_ACCOUNT) {
             if (resultCode == RESULT_OK) {
-                String newUserName = data.getStringExtra(Util.INTENT_DATA_NEWUSER_USERNAME);
+                String newUserName = data.getStringExtra(Keys.INTENT_DATA_NEWUSER_USERNAME);
                 usernameField.setText(newUserName);
 
                 Util.shortToast(getApplicationContext(),"Account created successfully!");

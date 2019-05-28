@@ -21,7 +21,7 @@ public abstract class TabFragmentBase extends Fragment {
 
 
     // newInstance constructor for creating fragment with arguments
-    public static TabFragmentBase newInstance(Class<? extends TabFragmentBase> tabFragmentClass, @LayoutRes int layoutRes) {
+    static TabFragmentBase newInstance(Class<? extends TabFragmentBase> tabFragmentClass, @LayoutRes int layoutRes) {
         TabFragmentBase tabFragment = null;
         try {
             tabFragment = tabFragmentClass.newInstance();

@@ -7,16 +7,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.flexbox.FlexboxLayout;
-
-import java.util.ArrayList;
-
 import com.nhansen.bookproject.FieldFocusTools;
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.ListActivitySearch;
 import com.nhansen.bookproject.book.Genre;
 import com.nhansen.bookproject.search.InvalidSearchCriteriaException;
 import com.nhansen.bookproject.search.SearchCriteria;
+
+import java.util.ArrayList;
 
 public class TabFragmentSearch extends TabFragmentBase {
 
@@ -73,10 +73,10 @@ public class TabFragmentSearch extends TabFragmentBase {
                 }
 
                 Intent searchIntent = new Intent(getContext(), ListActivitySearch.class);
-                searchIntent.putExtra(Util.INTENT_DATA_LIST_LISTTITLE, "Search Results");
-                searchIntent.putExtra(Util.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_book);
-                searchIntent.putExtra(Util.INTENT_DATA_LIST_LABELIFEMPTY, "No books match your search");
-                searchIntent.putExtra(Util.INTENT_DATA_SEARCHCRITERIA, searchCriteria);
+                searchIntent.putExtra(Keys.INTENT_DATA_LIST_LISTTITLE, "Search Results");
+                searchIntent.putExtra(Keys.INTENT_DATA_LIST_LAYOUTRES, R.layout.listitem_book);
+                searchIntent.putExtra(Keys.INTENT_DATA_LIST_LABELIFEMPTY, "No books match your search");
+                searchIntent.putExtra(Keys.INTENT_DATA_SEARCHCRITERIA, searchCriteria);
                 startActivity(searchIntent);
             }
         });

@@ -3,11 +3,11 @@ package com.nhansen.bookproject.activity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-
-import com.nhansen.bookproject.Util;
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.search.SearchCriteria;
+
+import java.util.ArrayList;
 
 public class ListActivitySearch extends ListActivityBase {
 
@@ -18,7 +18,7 @@ public class ListActivitySearch extends ListActivityBase {
         super.onCreate(savedInstanceState);
 
         actionButton.setVisibility(View.GONE);
-        searchCriteria = getIntent().getParcelableExtra(Util.INTENT_DATA_SEARCHCRITERIA);
+        searchCriteria = getIntent().getParcelableExtra(Keys.INTENT_DATA_SEARCHCRITERIA);
         ArrayList<Book> searchResults = searchCriteria.getSearchResults();
         updateList(searchResults);
 //        for (Book b : searchResults) {

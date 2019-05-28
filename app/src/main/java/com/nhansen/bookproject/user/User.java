@@ -3,16 +3,29 @@ package com.nhansen.bookproject.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
 
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.book.BookList;
 import com.nhansen.bookproject.book.Genre;
+import com.nhansen.bookproject.database.SaveActiveUserListener;
 
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+@SuppressWarnings({"WeakerAccess","UnusedReturnValue","UnusedDeclaration"})
 public class User implements Serializable, Parcelable {
-    private static final long serialVersionUID = Util.generateSerialUID("user_v1");
+    private static final long serialVersionUID = Util.generateSerialUID("user_v2");
+
+    private transient PropertyChangeSupport pcs;
+    {
+        pcs = new PropertyChangeSupport(this);
+        pcs.addPropertyChangeListener(new SaveActiveUserListener());
+    }
+
     private String name;
     private int passwordHash;
     private Gender gender;
@@ -51,57 +64,152 @@ public class User implements Serializable, Parcelable {
     }
 
     public User (User u) {
-        this.name = u.getName();
-        this.passwordHash = u.getPasswordHash();
-        this.gender = u.getGender();
-        this.age = u.getAge();
-        this.readingHabits = u.getReadingHabits();
-        this.likedGenres = u.getLikedGenres();
-        this.dislikedGenres = u.getDislikedGenres();
-        this.ratedBooks = u.getRatedBooks();
-        this.recommendedList = u.getRecommendedList();
-        this.customLists = u.getCustomLists();
+        this.name = u.name;
+        this.passwordHash = u.passwordHash;
+        this.gender = u.gender;
+        this.age = u.age;
+        this.readingHabits = u.readingHabits;
+        this.likedGenres = u.likedGenres;
+        this.dislikedGenres = u.dislikedGenres;
+        this.ratedBooks = u.ratedBooks;
+        this.recommendedList = u.recommendedList;
+        this.customLists = u.customLists;
     }
 
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-    public int getPasswordHash() {return passwordHash;}
-    public void setPassword(String password) {this.passwordHash = password.hashCode();}
-    public Gender getGender() {return gender;}
-    public void setGender(Gender gender) {this.gender = gender;}
-    public int getAge() {return age;}
-    public void setAge(int age) {this.age = age;}
-    public ReadingHabits getReadingHabits() {return readingHabits;}
-    public void setReadingHabits(ReadingHabits readingHabits) {this.readingHabits = readingHabits;}
-    public ArrayList<Genre> getLikedGenres() {return likedGenres;}
-    public void setLikedGenres(ArrayList<Genre> likedGenres) {this.likedGenres = likedGenres;}
-    public ArrayList<Genre> getDislikedGenres() {return dislikedGenres;}
-    public void setDislikedGenres(ArrayList<Genre> dislikedGenres) {this.dislikedGenres = dislikedGenres;}
-    public ArrayList<Book> getRatedBooks() {return ratedBooks;}
-    public void setRatedBooks(ArrayList<Book> ratedBooks) {this.ratedBooks = ratedBooks;}
+    public String getName() { return name; }
+    public int getPasswordHash() { return passwordHash; }
+    public Gender getGender() { return gender; }
+    public int getAge() { return age; }
+    public ReadingHabits getReadingHabits() { return readingHabits; }
+    public ArrayList<Genre> getLikedGenres() { return likedGenres; }
+    public ArrayList<Genre> getDislikedGenres() { return dislikedGenres; }
+    public ArrayList<Book> getRatedBooks() { return ratedBooks; }
     public BookList getRecommendedList() {return recommendedList;}
-    public void setRecommendedList(BookList recommendedList) {this.recommendedList = recommendedList;}
-    public void setRecommendedList(ArrayList<Book> recommendedList) {this.recommendedList = new BookList("Recommended Books", recommendedList);}
     public ArrayList<BookList> getCustomLists() {return customLists;}
-    public void addCustomList(BookList newList) {this.customLists.add(newList);}
+
+//    DEPRECATED - no longer allow changing of user names
+//
+//    public void setName(String name) {
+//        String oldValue = this.name;
+//        this.name = name;
+//        pcs.firePropertyChange(Keys.USER_SAVEEVENT_NAME, oldValue, name);
+//    }
+
+    public boolean setPassword(String password) { return setPasswordHash(password.hashCode()); }
+    public boolean setPasswordHash(int passwordHash) {
+        if (this.passwordHash == passwordHash)
+            return false;
+
+        int oldValue = this.passwordHash;
+        this.passwordHash = passwordHash;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_PASS, oldValue, passwordHash);
+        return true;
+    }
+
+    public boolean setGender(Gender gender) {
+        if (this.gender == gender)
+            return false;
+
+        Gender oldValue = this.gender;
+        this.gender = gender;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_GENDER, oldValue, gender);
+        return true;
+    }
+
+    public boolean setAge(int age) {
+        if (this.age == age)
+            return false;
+
+        int oldValue = this.age;
+        this.age = age;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_AGE, oldValue, age);
+        return true;
+    }
+
+    public boolean setReadingHabits(ReadingHabits readingHabits) {
+        if (this.readingHabits == readingHabits)
+            return false;
+
+        ReadingHabits oldValue = this.readingHabits;
+        this.readingHabits = readingHabits;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_READINGHABITS, oldValue, readingHabits);
+        return true;
+    }
+
+    public boolean setLikedGenres(ArrayList<Genre> likedGenres) {
+        if (this.likedGenres == likedGenres)
+            return false;
+
+        ArrayList<Genre> oldValue = new ArrayList<>(this.likedGenres);
+        this.likedGenres = likedGenres;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_LIKEDGENRE, oldValue, likedGenres);
+        return true;
+    }
+
+    public boolean setDislikedGenres(ArrayList<Genre> dislikedGenres) {
+        if (this.dislikedGenres == dislikedGenres)
+            return false;
+
+        ArrayList<Genre> oldValue = new ArrayList<>(this.dislikedGenres);
+        this.dislikedGenres = dislikedGenres;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_DISLIKEDGENRE, oldValue, dislikedGenres);
+        return true;
+    }
+
+    public boolean setRatedBooks(ArrayList<Book> ratedBooks) {
+        if (this.ratedBooks == ratedBooks)
+            return false;
+
+        ArrayList<Book> oldValue = new ArrayList<>(this.ratedBooks);
+        this.ratedBooks = ratedBooks;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_RATEDBOOKS, oldValue, ratedBooks);
+        return true;
+    }
+
+    public boolean setRecommendedList(ArrayList<Book> recommendedList) { return setRecommendedList(new BookList("Recommended Books", recommendedList)); }
+    public boolean setRecommendedList(BookList recommendedList) {
+        if (this.recommendedList == recommendedList)
+            return false;
+
+        BookList oldValue = new BookList("Recommended Books", this.recommendedList);
+        this.recommendedList = recommendedList;
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_RECOMMENDEDLIST, oldValue, recommendedList);
+        return true;
+    }
+
+    public boolean addCustomList(BookList newList) {
+        // currently no invalid values for newList
+
+        ArrayList<BookList> oldValue = new ArrayList<>(this.customLists);
+        this.customLists.add(newList);
+        pcs.firePropertyChange(Keys.USER_SAVEEVENT_CUSTOMLIST_CREATE, oldValue, this.customLists);
+        return true;
+    }
     public boolean appendCustomList(Book book, int listIndex) {
         BookList list = customLists.get(listIndex);
         if (list.contains(book))
             return false;
         else {
+            BookList oldValue = new BookList(list.getListName(),list);
             list.add(book);
+            pcs.firePropertyChange(Keys.USER_SAVEEVENT_CUSTOMLIST_APPEND, oldValue, list);
             return true;
         }
     }
-    public boolean removeCustomList(BookList list) {
-        for (BookList bl : getCustomLists()) {
-            if (bl.equals(list))
-                return getCustomLists().remove(bl);
+    public boolean deleteCustomList(BookList list) {
+        for (BookList bl : customLists) {
+            if (bl.equals(list)) {
+                ArrayList<BookList> oldValue = new ArrayList<>(customLists);
+                boolean deleted = customLists.remove(bl);
+                pcs.firePropertyChange(Keys.USER_SAVEEVENT_CUSTOMLIST_DELETE, oldValue, customLists);
+                return deleted;
+            }
         }
         return false;
     }
 
     @Override
+    @NonNull
     public String toString() {
         return name + ", " + age + ", " + gender.toString();
     }

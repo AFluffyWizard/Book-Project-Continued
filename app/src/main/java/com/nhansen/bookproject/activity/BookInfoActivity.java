@@ -1,14 +1,16 @@
 package com.nhansen.bookproject.activity;
 
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.nhansen.bookproject.UserListAdapter;
+import androidx.appcompat.app.AlertDialog;
+
+import com.nhansen.bookproject.Keys;
 import com.nhansen.bookproject.R;
+import com.nhansen.bookproject.UserListAdapter;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.database.DbHelper;
@@ -32,7 +34,7 @@ public class BookInfoActivity extends UserActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookinfo);
 
-        activeBook = getIntent().getParcelableExtra(Util.INTENT_DATA_BOOK);
+        activeBook = getIntent().getParcelableExtra(Keys.INTENT_DATA_BOOK);
 
         title = findViewById(R.id.bookinfo_label_title);
         author = findViewById(R.id.bookinfo_label_author);

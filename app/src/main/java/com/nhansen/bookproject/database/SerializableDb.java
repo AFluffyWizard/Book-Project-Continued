@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("UnusedDeclaration")
 class SerializableDb<T extends Serializable> {
 
     private Context context;

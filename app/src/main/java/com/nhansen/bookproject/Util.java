@@ -1,9 +1,6 @@
 package com.nhansen.bookproject;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,28 +11,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
+
 import com.google.android.flexbox.FlexboxLayout;
+import com.nhansen.bookproject.book.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nhansen.bookproject.book.Genre;
-
+@SuppressWarnings({"WeakerAccess","UnusedDeclaration"})
 public class Util {
 
-    /** Intent Flags and Keys **/
-
-    public static final int REQUEST_CREATE_ACCOUNT = 17371;
-    public static final String INTENT_DATA_NEWUSER_USERNAME = "INTENT_DATA_NEWUSER_USERNAME";
-    public static final String INTENT_DATA_BOOK = "INTENT_DATA_BOOK";
-    public static final String INTENT_DATA_LIST_LISTTITLE = "INTENT_DATA_LIST_LISTTITLE";
-    public static final String INTENT_DATA_LIST_DATASET = "INTENT_DATA_LIST_DATASET";
-    public static final String INTENT_DATA_LIST_LAYOUTRES = "INTENT_DATA_LIST_LAYOUTRES";
-    public static final String INTENT_DATA_LIST_LABELIFEMPTY = "INTENT_DATA_LIST_LABELIFEMPTY";
-    public static final String INTENT_DATA_SEARCHCRITERIA = "INTENT_DATA_SEARCHCRITERIA";
-
-
-    /** Utility Methods **/
 
     public static <T extends Enum> void setSpinnerSelection (Spinner spinner, Enum o) {
         int itemPos = ((ArrayAdapter<T>)spinner.getAdapter()).getPosition((T)o);

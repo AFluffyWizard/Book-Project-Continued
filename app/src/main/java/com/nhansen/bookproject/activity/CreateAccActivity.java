@@ -2,7 +2,6 @@ package com.nhansen.bookproject.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.flexbox.FlexboxLayout;
-
-import java.util.ArrayList;
-
-import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.FieldFocusTools;
+import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.book.BookList;
@@ -27,7 +25,9 @@ import com.nhansen.bookproject.user.Gender;
 import com.nhansen.bookproject.user.ReadingHabits;
 import com.nhansen.bookproject.user.User;
 
-import static com.nhansen.bookproject.Util.INTENT_DATA_NEWUSER_USERNAME;
+import java.util.ArrayList;
+
+import static com.nhansen.bookproject.Keys.INTENT_DATA_NEWUSER_USERNAME;
 
 public class CreateAccActivity extends AppCompatActivity {
 

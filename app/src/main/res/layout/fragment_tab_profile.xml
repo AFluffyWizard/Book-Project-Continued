@@ -26,28 +26,6 @@
             />
 
         <TextView
-            android:id="@+id/profile_label_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Username:"
-            android:paddingRight="8dp"
-            android:paddingBottom="24dp"
-            app:layout_constraintLeft_toLeftOf="@id/profile_layout_const"
-            app:layout_constraintTop_toBottomOf="@id/profile_label_guide"
-            />
-
-        <EditText
-            android:id="@+id/profile_field_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Username..."
-            app:layout_constraintBaseline_toBaselineOf="@id/profile_label_username"
-            app:layout_constraintLeft_toRightOf="@id/profile_label_username"
-            app:layout_constraintRight_toRightOf="@id/profile_layout_const"
-            />
-
-        <TextView
             android:id="@+id/profile_label_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +33,7 @@
             android:paddingRight="8dp"
             android:paddingBottom="24dp"
             app:layout_constraintLeft_toLeftOf="@id/profile_layout_const"
-            app:layout_constraintTop_toBottomOf="@id/profile_label_username"
+            app:layout_constraintTop_toBottomOf="@id/profile_label_guide"
             />
 
         <Spinner

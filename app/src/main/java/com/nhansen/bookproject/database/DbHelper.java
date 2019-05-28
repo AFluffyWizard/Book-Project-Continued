@@ -8,8 +8,8 @@ import com.nhansen.bookproject.book.Genre;
 import com.nhansen.bookproject.user.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
+@SuppressWarnings("UnusedReturnValue")
 public class DbHelper {
 
     private SerializableDb<User> userDb;
@@ -69,8 +69,8 @@ public class DbHelper {
     }
 
     // TODO - FIX THIS
-    // in theory, this class shouldn't know - or have to know - the file extension of the user files
-    // however, userDb.read() NEEDS the string to have the file extension
+    //  in theory, this class shouldn't know - or have to know - the file extension of the user files
+    //  however, userDb.read() NEEDS the string to have the file extension
     private User getUser (String username) {
         return userDb.read(username + ".ser");
     }
@@ -79,9 +79,11 @@ public class DbHelper {
         return userDb.write(user.getName(), user);
     }
 
-    public boolean appendUser (String oldUserName, User newUserData) {
-        return userDb.append(oldUserName, newUserData);
-    }
+//    DEPRECATED - no longer allow changing of user names
+//
+//    public boolean appendUser (String oldName, User newUserData) {
+//        return userDb.append(oldName, newUserData);
+//    }
 
     public boolean appendUser (User newUserData) {
         return userDb.append(newUserData.getName(), newUserData);
@@ -92,9 +94,17 @@ public class DbHelper {
     }
 
     public boolean usernameTaken(String name) {
-        ArrayList<String> userNames = new ArrayList<>();
-        Collections.addAll(userNames, userDb.getFriendlyFileNames());
-        return (userNames.contains(name));
+        for (String s : userDb.getFriendlyFileNames()) {
+            if (name.equals(s))
+                return true;
+        }
+        return false;
+    }
+
+    // TODO - rewrite this method once UUID is implemented for each User
+    //  might not implement it though. still deciding
+    public boolean userFileExists(User user) {
+        return usernameTaken(user.getName());
     }
 
 }
