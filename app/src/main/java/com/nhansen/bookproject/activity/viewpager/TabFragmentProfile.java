@@ -90,15 +90,14 @@ public class TabFragmentProfile extends TabFragmentBase {
                     activeUser.setLikedGenres(likedGenres) &&
                     activeUser.setDislikedGenres(dislikedGenres);
 
-                if (!updated) {
-                    Util.shortToast(getContext(), "No changes made - did not update user");
-                    return;
+                if (updated) {
+                    Recommender r = new Recommender(activeUser, DbHelper.getInstance(getContext()).getAllBooks(), 10);
+                    activeUser.setRecommendedList(r.produceRecommendedBooks());
+                    Util.longToast(getContext(), "User information updated");
                 }
-                Recommender r = new Recommender(activeUser, DbHelper.getInstance(getContext()).getAllBooks(), 10);
-                activeUser.setRecommendedList(r.produceRecommendedBooks());
-                dbHelper.appendUser(activeUser);
-
-                Util.longToast(getContext(), "User information updated");
+                else {
+                    Util.shortToast(getContext(), "No changes made - did not update user");
+                }
             }
         });
 
