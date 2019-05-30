@@ -1,13 +1,16 @@
 package com.nhansen.bookproject;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 public class RecyclerViewListableAdapter extends RecyclerView.Adapter<RecyclerViewListableAdapter.ListableViewHolder> {
 
@@ -18,15 +21,25 @@ public class RecyclerViewListableAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
 
-    private ArrayList<? extends Listable> dataset;
+    private ArrayList<Listable> dataset;
     private int viewLayoutRes;
     private boolean launchIntentOnClick;
 
     public RecyclerViewListableAdapter(ArrayList<? extends Listable> dataset, @LayoutRes int viewLayoutRes, boolean launchIntentOnClick) {
-        this.dataset = dataset;
+        this.dataset = new ArrayList<>(dataset);
         this.viewLayoutRes = viewLayoutRes;
         this.launchIntentOnClick = launchIntentOnClick;
     }
+    public RecyclerViewListableAdapter(Iterator<? extends Listable> datasetIterator, @LayoutRes int viewLayoutRes, boolean launchIntentOnClick) {
+        this(new ArrayList<Listable>(), viewLayoutRes, launchIntentOnClick);
+        while (datasetIterator.hasNext())
+            dataset.add(datasetIterator.next());
+    }
+    public RecyclerViewListableAdapter(Listable[] dataset, @LayoutRes int viewLayoutRes, boolean launchIntentOnClick) {
+        this(new ArrayList<Listable>(), viewLayoutRes, launchIntentOnClick);
+        Collections.addAll(this.dataset, dataset);
+    }
+
 
 
     @NonNull
@@ -63,7 +76,7 @@ public class RecyclerViewListableAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public void updateList (ArrayList<? extends Listable> dataset) {
-        this.dataset = dataset;
+        this.dataset = new ArrayList<>(dataset);
         this.notifyDataSetChanged();
     }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DbHelper {
 
     private SerializableDb<User> userDb;
-    private CsvDb bookDb;
+    private ReadOnlyCsvDb bookDb;
     private ArrayList<Book> allBooks;
 
     private static DbHelper singletonInstance;
@@ -28,7 +28,7 @@ public class DbHelper {
 
     private DbHelper(Context context) {
         userDb = new SerializableDb<>(context, "UserDb", ".ser");
-        bookDb = new CsvDb(context, "bookDB.csv");
+        bookDb = new ReadOnlyCsvDb(context, "bookDB.csv");
     }
 
 

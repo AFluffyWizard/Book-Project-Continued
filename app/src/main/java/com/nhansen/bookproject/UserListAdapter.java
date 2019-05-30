@@ -1,19 +1,20 @@
 package com.nhansen.bookproject;
 
 import android.content.Context;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.book.BookList;
+
+import java.util.List;
 
 public class UserListAdapter extends ArrayAdapter<BookList> {
 
@@ -35,7 +36,7 @@ public class UserListAdapter extends ArrayAdapter<BookList> {
 
         TextView name = convertView.findViewById(android.R.id.text1);
         name.setText(list.getListName());
-        if (list.contains(itemToCheck)) {
+        if (list.containsBook(itemToCheck)) {
             name.setTextColor(name.getHintTextColors());
             name.setFocusableInTouchMode(false);
         }

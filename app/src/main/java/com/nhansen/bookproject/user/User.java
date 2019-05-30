@@ -171,9 +171,9 @@ public class User implements Serializable, Parcelable {
         if (this.recommendedList == recommendedList)
             return false;
 
-        BookList oldValue = new BookList("Recommended Books", this.recommendedList);
+        //BookList oldValue = new BookList("Recommended Books", this.recommendedList);
         this.recommendedList = recommendedList;
-        pcs.firePropertyChange(Keys.USER_SAVEEVENT_RECOMMENDEDLIST, oldValue, recommendedList);
+        //pcs.firePropertyChange(Keys.USER_SAVEEVENT_RECOMMENDEDLIST, oldValue, recommendedList);
         return true;
     }
 
@@ -186,13 +186,13 @@ public class User implements Serializable, Parcelable {
         return true;
     }
     public boolean appendCustomList(Book book, int listIndex) {
-        BookList list = customLists.get(listIndex);
-        if (list.contains(book))
+        BookList bookList = customLists.get(listIndex);
+        if (bookList.containsBook(book))
             return false;
         else {
-            BookList oldValue = new BookList(list.getListName(),list);
-            list.add(book);
-            pcs.firePropertyChange(Keys.USER_SAVEEVENT_CUSTOMLIST_APPEND, oldValue, list);
+            BookList oldValue = new BookList(bookList);
+            bookList.addBook(book);
+            pcs.firePropertyChange(Keys.USER_SAVEEVENT_CUSTOMLIST_APPEND, oldValue, bookList);
             return true;
         }
     }
@@ -251,7 +251,7 @@ public class User implements Serializable, Parcelable {
         dest.writeTypedList(dislikedGenres);
         dest.writeTypedList(ratedBooks);
         dest.writeString(recommendedList.getListName());
-        dest.writeTypedList(recommendedList);
+        dest.writeParcelable(recommendedList,0);
         dest.writeTypedList(customLists);
     }
 
@@ -279,4 +279,5 @@ public class User implements Serializable, Parcelable {
             return new User[size];
         }
     };
+
 }

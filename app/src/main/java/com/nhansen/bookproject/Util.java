@@ -155,4 +155,11 @@ public class Util {
         System.out.println("END OF LIST");
     }
 
+    public static boolean listsCollide(List<? extends Object> list1, List<? extends Object> list2) {
+        boolean listsCollide = false;
+        for (Object obj : list1)
+            listsCollide |= list2.contains(obj);
+        return listsCollide;
+    }
+
 }

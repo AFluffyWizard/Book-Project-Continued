@@ -30,4 +30,16 @@ public class Keys {
     //public static final long UID_USER = some_long;
     //public static final long UID_BOOK = some_long;
 
+    /* JSON Keys */
+    public static final String JSON_USER_NAME = "JSON_USER_NAME";
+    public static final String JSON_USER_PASSHASH = "JSON_USER_PASSHASH";
+    public static final String JSON_USER_GENDER = "JSON_USER_GENDER";
+    public static final String JSON_USER_AGE = "JSON_USER_AGE";
+    public static final String JSON_USER_READINGHABITS = "JSON_USER_READINGHABITS";
+    public static final String JSON_USER_LIKEDGENRES = "JSON_USER_LIKEDGENRES";
+    public static final String JSON_USER_DISLIKEDGENRES = "JSON_USER_DISLIKEDGENRES";
+    public static final String JSON_USER_RATEDBOOKS = "JSON_USER_RATEDBOOKS";
+    public static final String JSON_USER_RECOMMENDEDLIST = "JSON_USER_RECOMMENDEDLIST";
+    public static final String JSON_USER_CUSTOMLISTS = "JSON_USER_CUSTOMLISTS";
+
 }

@@ -11,7 +11,7 @@ public class SaveActiveUserListener implements PropertyChangeListener {
 
     private static final long SAVE_DELAY = 1000;
     private DbHelper dbHelper = DbHelper.getInstance();
-    private Timer saveDataTimer = new Timer();
+    private Timer saveDataTimer;
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -19,8 +19,11 @@ public class SaveActiveUserListener implements PropertyChangeListener {
 //        User sourceUser = (User)evt.getSource();
 //        if (!dbHelper.userFileExists(sourceUser))
 
-        saveDataTimer.cancel();
-        saveDataTimer.purge();
+        if (saveDataTimer != null) {
+            saveDataTimer.cancel();
+            saveDataTimer.purge();
+        }
+        saveDataTimer = new Timer();
         saveDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {

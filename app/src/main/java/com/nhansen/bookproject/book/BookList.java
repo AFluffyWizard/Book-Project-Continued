@@ -15,34 +15,41 @@ import com.nhansen.bookproject.R;
 import com.nhansen.bookproject.Util;
 import com.nhansen.bookproject.activity.ListActivityBookList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class BookList extends ArrayList<Book> implements Parcelable, Listable {
+@SuppressWarnings("UnusedReturnValue")
+public class BookList implements Parcelable, Serializable, Listable {
 
+    private static final long serialVersionUID = Util.generateSerialUID("blist_v2");
     private String listName;
-    private static final long serialVersionUID = Util.generateSerialUID("blist_v1");
+    private ArrayList<Book> list;
+
 
     public BookList(String listName) {
-        super();
-        this.listName = listName;
+        this(listName,new ArrayList<Book>());
     }
-    public BookList(String listName, ArrayList<Book> bookList) {
-        super(bookList);
+    public BookList(BookList bookList) {
+        this(bookList.listName, bookList.list);
+    }
+    public BookList(String listName, ArrayList<Book> list) {
         this.listName = listName;
+        this.list = list;
     }
 
-    public void addBook(Book book)
-    {
-        this.add(book);
-    }
+
+    public boolean addBook(Book b) { return list.add(b); }
+    public boolean containsBook(Book b) { return list.contains(b); }
     public String getListName() {return listName;}
     public void setListName(String listName) {this.listName = listName;}
+    public Iterator<Book> getIterator() { return list.iterator(); }
 
     private String getNumBooksString() {
-        if (size() == 1)
+        if (list.size() == 1)
             return "1 book";
         else
-            return size() + " books";
+            return list.size() + " books";
     }
 
     @Override
@@ -55,8 +62,8 @@ public class BookList extends ArrayList<Book> implements Parcelable, Listable {
         if (!(obj instanceof BookList))
             return false;
         BookList otherList = (BookList)obj;
-        boolean sameList = super.equals(obj);
         boolean sameName = listName.equals(otherList.getListName());
+        boolean sameList = list.equals(otherList.list);
         return sameName && sameList;
     }
 
@@ -64,7 +71,7 @@ public class BookList extends ArrayList<Book> implements Parcelable, Listable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(listName);
-        dest.writeTypedList(this);
+        dest.writeTypedList(list);
     }
 
     @Override

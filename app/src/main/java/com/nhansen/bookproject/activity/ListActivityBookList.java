@@ -7,8 +7,11 @@ import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 
 import com.nhansen.bookproject.Util;
+import com.nhansen.bookproject.book.Book;
 import com.nhansen.bookproject.book.BookList;
 import com.nhansen.bookproject.database.DbHelper;
+
+import java.util.ArrayList;
 
 public class ListActivityBookList extends ListActivityBase {
 
@@ -22,7 +25,8 @@ public class ListActivityBookList extends ListActivityBase {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (activeUser.deleteCustomList( (BookList)dataset )) {
+                        BookList listToDelete = new BookList(listTitle.getText().toString(), (ArrayList<Book>)dataset);
+                        if (activeUser.deleteCustomList(listToDelete)) {
                             DbHelper.getInstance(getApplicationContext()).appendUser(activeUser);
                             finish();
                         }

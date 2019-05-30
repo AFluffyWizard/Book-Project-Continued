@@ -20,7 +20,7 @@ public class TabFragmentList extends TabFragmentBase {
 
         RecyclerView recommendedList = getView().findViewById(R.id.tab_list_layout_listrecyclerview);
         recommendedList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        RecyclerViewListableAdapter recyclerViewAdapter = new RecyclerViewListableAdapter(activeUser.getRecommendedList(), R.layout.listitem_book/*recommendedBooks.get(0).getListViewLayoutRes()*/, true);
+        RecyclerViewListableAdapter recyclerViewAdapter = new RecyclerViewListableAdapter(activeUser.getRecommendedList().getIterator(), R.layout.listitem_book/*recommendedBooks.get(0).getListViewLayoutRes()*/, true);
         recommendedList.setAdapter(recyclerViewAdapter);
 
         Button customListsButton = getView().findViewById(R.id.tab_list_button_customlists);

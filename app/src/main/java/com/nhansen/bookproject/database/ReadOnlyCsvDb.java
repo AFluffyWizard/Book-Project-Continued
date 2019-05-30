@@ -8,12 +8,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class CsvDb {
+class ReadOnlyCsvDb {
 
     private Context context;
     private String csvFileName;
 
-    CsvDb(Context context, String csvFileName) {
+    ReadOnlyCsvDb(Context context, String csvFileName) {
         this.context = context;
         this.csvFileName = csvFileName;
     }

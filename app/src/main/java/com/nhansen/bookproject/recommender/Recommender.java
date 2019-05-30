@@ -1,13 +1,11 @@
 package com.nhansen.bookproject.recommender;
 
-import androidx.annotation.RequiresApi;
+import com.nhansen.bookproject.book.Book;
+import com.nhansen.bookproject.user.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-
-import com.nhansen.bookproject.book.Book;
-import com.nhansen.bookproject.user.User;
 
 /**
  * Recommender finds books in the database that match the Users preferences
@@ -31,7 +29,7 @@ public class Recommender {
         this.currentUser = currentUser;
         this.database = database;
         this.filteredBooks = new ArrayList<>();
-        //! need to add getAverageRating method in Book
+        //! need to addBook getAverageRating method in Book
         //this is a min heap priority queue ordered by rating
         this.recommendedBooks = new PriorityQueue<Book>(numberOfBooksRecommended + 1, new Comparator<Book>()
                                 {

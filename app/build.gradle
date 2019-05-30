@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.github.mpkorstanje:simmetrics-core:4.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

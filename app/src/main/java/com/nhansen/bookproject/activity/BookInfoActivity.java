@@ -61,7 +61,7 @@ public class BookInfoActivity extends UserActivityBase {
                     DbHelper.getInstance(getApplicationContext()).appendUser(activeUser);
                 }
                 else
-                    Util.shortToast(getApplicationContext(), "That list already contains this book");
+                    Util.shortToast(getApplicationContext(), "That list already containsBook this book");
             }
         };
         addToListDialog = new AlertDialog.Builder(this)
@@ -73,7 +73,7 @@ public class BookInfoActivity extends UserActivityBase {
             @Override
             public void onClick(View v) {
                 if (activeUser.getCustomLists().size() == 0)
-                    Util.shortToast(getApplicationContext(), "You don't have any lists to add this to");
+                    Util.shortToast(getApplicationContext(), "You don't have any lists to addBook this to");
                 else
                     addToListDialog.show();
             }

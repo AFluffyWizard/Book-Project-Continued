@@ -2,25 +2,33 @@ package com.nhansen.bookproject.database;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 @SuppressWarnings({"UnusedDeclaration","WeakerAccess"})
-class SerializableDb<T extends Serializable> {
+public class SimpleJsonDb<T> {
 
     private Context context;
     private File dbDir;
     private String fileExtension;
+    private Gson jsonUtil;
+    private Class<T> type;
 
-    SerializableDb(Context context, String dirName, String fileExtension) {
+    SimpleJsonDb(Context context, String dirName, String fileExtension, Class<T> type) {
         this.context = context;
         this.fileExtension = fileExtension;
+        this.jsonUtil = new GsonBuilder().setPrettyPrinting().create();
+        this.type = type;
         dbDir = new File (context.getFilesDir(), dirName);
         dbDir.mkdir();
     }
@@ -37,9 +45,11 @@ class SerializableDb<T extends Serializable> {
             if (!newFile.createNewFile())
                 return false;
             FileOutputStream fileOut = context.openFileOutput(newFile.getName(), Context.MODE_PRIVATE);
-            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-            objOut.writeObject(obj);
-            objOut.close();
+            OutputStreamWriter streamWriter = new OutputStreamWriter(fileOut);
+            BufferedWriter bufferedWriter = new BufferedWriter(streamWriter);
+            bufferedWriter.write(jsonUtil.toJson(obj));
+            bufferedWriter.close();
+            streamWriter.close();
             fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,9 +69,11 @@ class SerializableDb<T extends Serializable> {
                 return false;
             appendedFile.createNewFile();
             FileOutputStream fileOut = context.openFileOutput(appendedFile.getName(), Context.MODE_PRIVATE);
-            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-            objOut.writeObject(newObj);
-            objOut.close();
+            OutputStreamWriter streamWriter = new OutputStreamWriter(fileOut);
+            BufferedWriter bufferedWriter = new BufferedWriter(streamWriter);
+            bufferedWriter.write(jsonUtil.toJson(newObj));
+            bufferedWriter.close();
+            streamWriter.close();
             fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,13 +101,13 @@ class SerializableDb<T extends Serializable> {
             return null;
         try {
             FileInputStream fileIn = context.openFileInput(readFile.getName());
-            ObjectInputStream objIn = new ObjectInputStream(fileIn);
-            readObj = (T) objIn.readObject();
-            objIn.close();
+            InputStreamReader streamReader = new InputStreamReader(fileIn);
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            readObj = jsonUtil.fromJson(bufferedReader, type.getGenericSuperclass());
+            bufferedReader.close();
+            streamReader.close();
             fileIn.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return readObj;

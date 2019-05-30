@@ -102,6 +102,10 @@ public class CreateAccActivity extends AppCompatActivity {
                     Util.shortToast("You must specify at least one liked genre");
                     return;
                 }
+                else if (Util.listsCollide(likedGenres, dislikedGenres)) {
+                    Util.shortToast("You cannot like and dislike the same genre");
+                    return;
+                }
 
                 // create user, save, and return
                 User newUser = new User(name, pass, gender, Integer.parseInt(ageString), readingHabits, likedGenres, dislikedGenres, new ArrayList<Book>(), new BookList("Recommended"), new ArrayList<BookList>());
